@@ -17,7 +17,6 @@ class DrinksController < ApplicationController
   # POST /drinks
   def create
     @drink = Drink.new(drink_params)
-
     if @drink.save
       render json: @drink, status: :created, location: @drink
     else

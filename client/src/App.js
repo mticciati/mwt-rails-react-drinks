@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Header, Segment, Button, Icon, Dimmer, Loader, Divider } from 'semantic-ui-react'
+import { CreateConsumer } from './actioncable/create-consumer';
+// import DrinkNotifications from './actioncable/drink-notifications'
+
+// /**** Action cable logic ***/
+window.App = {};
+// CreateConsumer()
+// DrinkNotifications.subscribe((data) => {
+//   console.log(data);
+// });
 
 class App extends Component {
   constructor() {
@@ -11,6 +20,29 @@ class App extends Component {
 
   componentDidMount() {
     this.getDrinks()
+    CreateConsumer()
+    // DrinkNotifications.subscribe((data) => {
+    //   console.log(data);
+    // });
+    this.setupSubscription();
+  }
+  setupSubscription() {
+    window.App.drinks = window.App.cable.subscriptions.create("DrinksChannel", {
+      // console.log(this.state),
+      connected: function() {
+        console.log('Connected!')
+        // this.perform('follow_drink', {drink_id: 3})
+      },
+
+      received: function(data) {
+        console.log('received!')
+        this.getDrink(data.drink)
+      },
+
+      getDrink: this.getDrink.bind(this)
+    });
+
+    
   }
   fetch (endpoint) {
     return new Promise((resolve, reject) => {

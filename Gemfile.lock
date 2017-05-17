@@ -216,6 +216,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actioncable
   activeadmin!
   byebug
   devise (> 4.x)
